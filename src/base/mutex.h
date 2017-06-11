@@ -23,7 +23,7 @@ public:
                 CHECK(pthread_mutex_destroy(&mutex_));
         }
 
-        void lock(const pid_t tid)
+        void lock(const pid_t& tid)
         {
                 CHECK(pthread_mutex_lock(&mutex_));
                 assignHolder(tid);  //必须在CHECK之后
@@ -35,7 +35,7 @@ public:
                 CHECK(pthread_mutex_unlock(&mutex_));
         }
 
-        void assignHolder(const pid_t tid) { holder_ = tid; }
+        void assignHolder(const pid_t& tid) { holder_ = tid; }
 
         void unassignHolder() { holder_ = 0; }
 
