@@ -1,2 +1,2 @@
 # Explorer
-基于Raft协议，采用B+树索引实现的分布式Key-Value数据库
+基于Raft算法，采用B+树索引实现的分布式Key-Value数据库
