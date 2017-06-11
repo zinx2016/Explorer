@@ -4,7 +4,7 @@
 #include "config.h"
 
 #define CHECK(ret) ({__typeof__ (ret) errnum = (ret);           \
-                     assert(ret == 0); (void)errnum;})
+                     assert(errnum == 0); (void) errnum;})
 
 namespace Explorer {
 
