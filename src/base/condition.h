@@ -1,5 +1,5 @@
 #ifndef _EXPLORER_CONDITION_H_
-#define _EXPLOER_CONDITION_H_
+#define _EXPLORER_CONDITION_H_
 
 #include "mutex.h"
 #include <stdint.h> //int64_t
