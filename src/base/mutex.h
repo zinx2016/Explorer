@@ -1,7 +1,8 @@
 #ifndef _EXPLORER_MUTEX_H_
 #define _EXPLORER_MUTEX_H_
 
-#include "config.h"
+#include <pthread.h>
+#include <cassert> //assert()
 
 #define CHECK(ret) ({__typeof__ (ret) errnum = (ret);           \
                      assert(errnum == 0); (void) errnum;})
@@ -33,6 +34,11 @@ public:
         {
                 unassignHolder();  //必须在CHECK之前
                 CHECK(pthread_mutex_unlock(&mutex_));
+        }
+
+        pthread_mutex_t* getMutex()
+        {
+                return &mutex_;
         }
 
         void assignHolder(const pid_t& tid) { holder_ = tid; }
