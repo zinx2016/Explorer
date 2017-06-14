@@ -12,7 +12,7 @@ public:
 
 private:
         NoCopy(const NoCopy& ) = delete;
-        NoCopy& (const NoCopy& ) = delete;
+        NoCopy& operator=(const NoCopy& ) = delete;
 };
 
 typedef std::function<void ()> Task;
