@@ -1,6 +1,8 @@
 #ifndef _EXPLORER_BASE_H_
 #define _EXPLORER_BASE_H_
 
+#include <functional>
+
 namespace Explorer {
 
 class NoCopy
