@@ -9,9 +9,14 @@ template <typename T>
 class Atomic
 {
 public:
-        Atomic() {}
+        Atomic() : val_(0) {}
 
         Atomic(const T& val) : val_(val) {}
+
+        Atomic(const Atomic<T>& x)
+        {
+                __sync_val_compare_and_swap(&val_, val_, x.val_);
+        }
 
         inline T get()
         {
