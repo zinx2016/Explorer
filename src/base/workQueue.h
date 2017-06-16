@@ -12,8 +12,8 @@ class WorkQueue : private NoCopy
 public:
         explicit WorkQueue(int maxSize)
                 : mutex_(),
-                  notEmpty_(),
-                  notFull_(),
+                  notEmpty_(mutex_),
+                  notFull_(mutex_),
                   queue_(),
                   maxSize_(maxSize)
         { }
@@ -23,7 +23,7 @@ public:
                 MutexLockGuard mtx(mutex_);
                 while (queue_.size() == maxSize_)
                 {
-                        notFull_.wait(mutex_);
+                        notFull_.wait();
                 }
                 assert(!(queue_.size() == maxSize_));
                 queue_.push(x);
@@ -35,7 +35,7 @@ public:
                 MutexLockGuard mtx(mutex_);
                 while (queue_.empty())
                 {
-                        notEmpty_.wait(mutex_);
+                        notEmpty_.wait();
                 }
                 assert(!queue_.empty());
                 T ret(queue_.front());
