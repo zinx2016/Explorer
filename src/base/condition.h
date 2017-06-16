@@ -2,19 +2,16 @@
 #define _EXPLORER_CONDITION_H_
 
 #include "mutex.h"
-#include <stdint.h> //int64_t
 #include <errno.h> //ETIMEDOUT
 #include <sys/time.h> //timespec,...
 
-
 namespace Explorer {
 
-
-// 条件变量
-class Condition
+class Condition : private NoCopy
 {
 public:
-        explicit Condition(Mutex& mtx) : mutex_(mtx)
+        explicit Condition(Mutex& mutex)
+          : mutex_(mutex)
         {
                 CHECK(pthread_cond_init(&cond_, NULL));
         }
@@ -58,13 +55,10 @@ public:
         }
 
 private:
-        Mutex mutex_;
         pthread_cond_t cond_;
+        Mutex&  mutex_;
 };
 
+} // namespace Explorer
 
-
-}
-
-
-#endif
+#endif /*_EXPLORER_CONDITION_H_*/
