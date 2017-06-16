@@ -3,36 +3,33 @@
 
 #include <pthread.h>
 #include <cassert> //assert()
+#include "base.h"
 
 #define CHECK(ret) ({__typeof__ (ret) errnum = (ret);           \
                      assert(errnum == 0); (void) errnum;})
 
 namespace Explorer {
 
-
-class Mutex
+class Mutex : private NoCopy
 {
 public:
-        Mutex() : holder_(0)
+        Mutex()
         {
                 pthread_mutex_init(&mutex_, NULL);
         }
 
         ~Mutex()
         {
-                assert(holder_ == 0);
                 CHECK(pthread_mutex_destroy(&mutex_));
         }
 
-        void lock(const pid_t& tid)
+        void lock()
         {
                 CHECK(pthread_mutex_lock(&mutex_));
-                assignHolder(tid);  //必须在CHECK之后
         }
 
-        void unLock()
+        void unlock()
         {
-                unassignHolder();  //必须在CHECK之前
                 CHECK(pthread_mutex_unlock(&mutex_));
         }
 
@@ -41,20 +38,28 @@ public:
                 return &mutex_;
         }
 
-        void assignHolder(const pid_t& tid) { holder_ = tid; }
-
-        void unassignHolder() { holder_ = 0; }
-
-        bool locked() const { return holder_ != 0; }
-
 private:
         pthread_mutex_t mutex_;
-        pid_t holder_;  //持有锁的线程ID
 };
 
+class MutexLockGuard : private NoCopy
+{
+public:
+        explicit MutexLockGuard(Mutex& mutex)
+                : mutex_(mutex)
+        {
+                mutex_.lock();
+        }
 
+        ~MutexLockGuard()
+        {
+                mutex_.unlock();
+        }
 
-}
+private:
+        Mutex& mutex_;
+};
 
+} //namespace Explorer
 
-#endif
+#endif /*_EXPLORER_MUTEX_H_*/
