@@ -3,16 +3,14 @@
 
 #include <functional> //function<>
 #include <pthread.h>
+#include "base.h"
 
 namespace Explorer {
 
-
-class Thread
+class Thread : private NoCopy
 {
 public:
-        typedef std::function<void()> ThreadFunc;
-
-        explicit Thread(const ThreadFunc&);
+        explicit Thread(const Func&);
 
         ~Thread();
 
@@ -24,19 +22,19 @@ public:
 
         bool started() const { return started_; }
 
+        bool stoped() const { return stoped_; }
+
 private:
         pid_t gettid();
 
 private:
         pthread_t pthreadId_;
         pid_t tid_;
-        ThreadFunc func_;
+        Func func_;
         bool started_;
         bool stoped_;
 };
 
+} // namespace Explorer
 
-}
-
-
-#endif
+#endif /*_EXPLOER_THREAD_H_*/
