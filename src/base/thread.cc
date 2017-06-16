@@ -7,8 +7,11 @@ namespace Explorer {
 
 struct ThreadData
 {
-        typedef std::function<void()> Func;
-        ThreadData(pid_t tid, Func func) : tid_(tid), func_(func) {}
+        ThreadData(pid_t tid, Func func)
+            : tid_(tid),
+              func_(func)
+        { }
+
         pid_t tid_;
         Func func_;
 };
@@ -19,7 +22,7 @@ void* startThread(void* arg)  //不能作为类成员函数
         data->func_();  //运行线程函数
 }
 
-Thread::Thread(const ThreadFunc& func)
+Thread::Thread(const Func& func)
         : pthreadId_(0),
           tid_(0),
           func_(func),
