@@ -14,14 +14,29 @@ class Socket : private NoCopy
 public:
         Socket() : fd_(-1) { }
 
-        bool create();
-        bool connect(NetAddress& address);
-        bool bind(NetAddress& address);
-        bool listen();
-        int accept(struct sockaddr* address);
+        void create();
+        void connect(int sockfd, NetAddress& address);
+        void bind(int sockfd, NetAddress& address);
+        void listen(int sockfd);
+        int accept(int sockfd, struct sockaddr* address);
+        int fd();
+        void close(int sockfd);
+
+        // 半关闭
+        void shutdownWrite(int fd);
+        // 设置套接字非阻塞
+        void setNonBlock(int fd);
+        // 启用/禁止 Nagle算法 TCP_NODELAY
+        void setTcpNoDealy(bool on);
+        // SO_REUSEADDR
+        void setReuseAddr(bool on);
+        // SO_REUSEPORT
+        void setReusePort(bool on);
+        // SO_KEEPALIVE
+        void setKeepAlive(bool on);
 
 private:
-        int fd_;
+        int sockfd_; // 监听套接字
 };
 
 } // namespace Explorer
