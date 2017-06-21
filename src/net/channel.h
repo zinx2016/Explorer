@@ -2,6 +2,7 @@
 #define _EXPLORER_CHANNEL_H_
 
 #include "../base/base.h"
+#include <sys/epoll.h>
 
 namespace Explorer {
 
@@ -13,7 +14,6 @@ public:
         typedef Func EventCallBack;
 
         Channel(EventLoop* loop, int fd);
-        ~Channel();
 
         void handleEvent(); // 最核心函数
         void setReadCallBack(const EventCallBack& cb);
@@ -23,7 +23,7 @@ public:
         void enableWrite();
         void disableRead();
         void disableWrite();
-        void update();
+        void update(); // 更新Channel
         bool readReady();
         bool writeReady();
 
