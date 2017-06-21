@@ -1,7 +1,7 @@
 #include "thread.h"
-#include <sys/syscall.h>  //for syscall()
 #include <unistd.h>
 #include <cassert>
+#include "currentThread.h"
 
 namespace Explorer {
 
@@ -38,15 +38,10 @@ Thread::~Thread()
         }
 }
 
-pid_t Thread::gettid()
-{
-        return static_cast<pid_t>(syscall(SYS_gettid));
-}
-
 void Thread::start()
 {
         assert(!started_);
-        tid_ = gettid();
+        tid_ = tid();
         started_ = true;
         ThreadData *data = new ThreadData(tid_, func_);
         if( 0 != pthread_create(&pthreadId_, NULL, startThread, (void*)data))
@@ -66,5 +61,13 @@ int Thread::stop()
         return pthread_join(pthreadId_, NULL);
 }
 
-
+pid_t Thread::tid()
+{
+        if (tid_ == 0)
+        {
+                tid_ = CurrentThread::tid();
+        }
+        return tid_;
 }
+
+} // namespace Explorer
