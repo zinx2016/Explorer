@@ -4,6 +4,7 @@
 #include <sys/epoll.h>
 #include <vector>
 #include "../base/base.h"
+#include "eventLoop.h"
 
 namespace Explorer {
 
@@ -11,24 +12,27 @@ class Channel;
 
 class Epoller : private NoCopy
 {
-purlic:
+public:
         typedef std::vector<struct epoll_event> EventList;
+        typedef std::vector<Channel*> ChannelList;
 
-        Epoller();
-
+        Epoller(EventLoop* loop);
         ~Epoller();
 
+        void epoll(int epollTimeOut, ChannelList& activeChannels);
+        void fillActiveChannels(int numActives, ChannelList& activeChannels);
+
         void addChannel(Channel* channel);
-
         void updateChannel(Channel* channel);
-
         void removeChannel(Channel* channel);
 
+        EventLoop* ownerLoop() const;
 
 private:
-        static const InitEventListSize = 1024;
+        static const int InitEventListSize = 1024;
 
 private:
+        EventLoop* ownerLoop_;
         int epollfd_;
         EventList events_;
 };
