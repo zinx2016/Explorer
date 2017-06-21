@@ -1,39 +1,101 @@
 #include "socket.h"
+#include <unistd.h>
+#include <fcntl.h>
 
 namespace Explorer {
 
-bool
+void
 Socket::create()
 {
-        fd_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        return fd_ != -1;
+        assert( -1 != (sockfd_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP)) );
+        setNonBlock(sockfd_);
 }
 
-bool
-Socket::connect(NetAddress& address)
+void
+Socket::connect(int sockfd, NetAddress& address)
 {
-        return 0 == ::connect(fd_, (struct sockaddr* )&address.getAddr(), address.len());
+        assert( 0 == ::connect(sockfd, (struct sockaddr* )&address.getAddr(), address.len()) );
 }
 
-bool
-Socket::bind(NetAddress& address)
+void
+Socket::bind(int sockfd, NetAddress& address)
 {
-        return 0 == ::bind(fd_, (struct sockaddr* )&address.getAddr(), address.len());
+        assert( 0 == ::bind(sockfd, (struct sockaddr* )&address.getAddr(), address.len()) );
 }
 
-bool
-Socket::listen()
+void
+Socket::listen(int sockfd)
 {
-        return 0 == ::listen(fd_, BACKLOG);
+        assert(0 == ::listen(sockfd, BACKLOG));
 }
 
 int
-Socket::accept(struct sockaddr* address)
+Socket::accept(int sockfd, struct sockaddr* address)
 {
         int fd;
         socklen_t len = sizeof(struct sockaddr_in);
-        assert( 0 < (fd = ::accept(fd_, address, &len)) );
+        assert( 0 < (fd = ::accept(sockfd, address, &len)) );
+        setNonBlock(fd);
         return fd;
+}
+
+int
+Socket::fd()
+{
+        return sockfd_;
+}
+
+void
+Socket::close(int sockfd)
+{
+        assert(0 == ::close(sockfd));
+}
+
+void
+Socket::shutdownWrite(int sockfd)
+{
+        assert(-1 != shutdown(sockfd, SHUT_WR));
+}
+
+void
+Socket::setNonBlock(int sockfd)
+{
+        int flag = fcntl(sockfd, F_GETFL, 0);
+        assert(flag != -1);
+        flag |= O_NONBLOCK;
+        assert( -1 != fcntl(sockfd, F_SETFL, flag));
+}
+
+void
+Socket::setTcpNoDelay(bool on)
+{
+        int optval = on ? 1 : 0;
+        setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY, &optval,
+                   static_cast<socklen_t>(sizeof(optval)));
+}
+
+void
+Socket::setReuseAddr(bool on)
+{
+        int optval = on ? 1 : 0;
+        setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, &optval,
+                   static_cast<socklen_t>(sizeof(optval)));
+}
+
+void
+Socket::setReusePort(bool on)
+{
+        int optval = on ? 1 : 0;
+        setsockopt(sockfd_, SOL_SOCKET, SO_REUSEPORT, &optval,
+                   static_cast<socklen_t>(sizeof(optval)));
+}
+
+void
+Socket::setKeepAlive(bool on)
+{
+        int optval = on ? 1 : 0;
+        setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE, &optval,
+                   static_cast<socklen_t>(sizeof(optval)));
 }
 
 } // namespace Explorer
