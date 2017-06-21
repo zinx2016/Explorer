@@ -2,6 +2,7 @@
 #include "channel.h"
 #include "epoller.h"
 #include <cassert>
+#include "../base/currentThread.h"
 
 namespace Explorer {
 
