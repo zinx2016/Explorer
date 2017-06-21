@@ -18,14 +18,11 @@ public:
 
         int stop();
 
-        pid_t tid() const { return tid_;}
+        pid_t tid();
 
         bool started() const { return started_; }
 
         bool stoped() const { return stoped_; }
-
-private:
-        pid_t gettid();
 
 private:
         pthread_t pthreadId_;
