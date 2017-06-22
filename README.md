@@ -6,4 +6,4 @@
 并测试通过，测试代码：test/threadPool.cc  
 6.21 :     
 完成Reactor事件处理框架：EventLoop、Epoller、Channel，代码：src/net/...；   
-并测试通过，测试代码：test/eventLoop.cc
+并测试通过，测试代码：test/eventLoop.cc、test/tcp01.cc
