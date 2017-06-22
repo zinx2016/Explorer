@@ -28,7 +28,7 @@ int main()
         Channel channel(&loop, timerfd); // 向事件分发注册描述符
         channel.setReadCallBack(timeout); // 注册描述符的事件回调函数
         // Channel::enable*()-->Channel::update()-->EventLoop::updateChannel()
-        // -->Epoller::updateChannel()-->epoll->ctl()
+        // -->Epoller::updateChannel()-->epoll_ctl()
         channel.enableRead(); // 设置描述符上关心的事件，调用update()向epoll注册事件
 
         struct itimerspec tm;
