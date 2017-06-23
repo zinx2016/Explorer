@@ -1,12 +1,15 @@
 #ifndef _EXPLORER_EVENT_LOOP_H_
 #define _EXPLORER_EVENT_LOOP_H_
 
+#include <vector>
+#include <memory>
+
 #include "../base/base.h"
 #include "../base/mutex.h"
 #include "../base/thread.h"
 #include "../base/currentThread.h"
-#include <vector>
-#include <memory>
+#include "callback.h"
+#include "timerQueue.h"
 
 namespace Explorer {
 
@@ -28,12 +31,17 @@ public:
         // Channel::update()-->EventLoop::updateChannel()-->Epoller::updateChannel()
         void updateChannel(Channel* channel);
 
+        // 定时器功能
+        void runAfter(double seconds, const TimerCallBack& cb);
+        void runEvery(double seconds, const TimerCallBack& cb);
+
 private:
         const pid_t threadId_;
         bool looping_;
         bool quit_;
         std::unique_ptr<Epoller> epoller_;
         ChannelList activeChannels_;
+        std::unique_ptr<TimerQueue> timerQueue_;
 };
 
 } // namespace Explorer
