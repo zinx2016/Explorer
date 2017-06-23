@@ -15,7 +15,8 @@ EventLoop::EventLoop()
         : threadId_(CurrentThread::tid()),
           looping_(false),
           quit_(false),
-          epoller_(new Epoller(this))  // 创建EventLoop的Epoller
+          epoller_(new Epoller(this)),  // 创建EventLoop的Epoller
+          timerQueue_(new TimerQueue(this))
 {
         // 1个线程只能创建1个EventLoop
         assert(loopInThisThread == 0);
@@ -40,7 +41,7 @@ EventLoop::loop()
 
         while (!quit_)
         {
-                activeChannels_.clear();
+                activeChannels_.clear(); // 清除事件
                 epoller_->epoll(epollTimeOut, activeChannels_);
                 for (ChannelList::iterator iter = activeChannels_.begin();
                      iter != activeChannels_.end(); ++iter)
@@ -67,5 +68,18 @@ EventLoop::quit()
         quit_ = true;
 }
 
+void
+EventLoop::runAfter(double seconds, const TimerCallBack& cb)
+{
+        Time time(addTime(Time::now(), seconds));
+        timerQueue_->addTimer(cb, time, 0.00); // 回调函数，超时时间戳，间隔
+}
+
+void
+EventLoop::runEvery(double seconds, const TimerCallBack& cb)
+{
+        Time time(addTime(Time::now(), seconds));
+        timerQueue_->addTimer(cb, time, seconds);
+}
 
 } // namespace Explorer
