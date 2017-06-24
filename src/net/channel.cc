@@ -1,10 +1,10 @@
 #include "channel.h"
 #include "eventLoop.h"
 
-const uint32_t ReadEvent = EPOLLIN;
-const uint32_t WriteEvent = EPOLLOUT;
-
 namespace Explorer {
+
+const uint32_t Channel::ReadEvent = EPOLLIN;
+const uint32_t Channel::WriteEvent = EPOLLOUT;
 
 Channel::Channel(EventLoop* loop, int fd)
         : loop_(loop),
@@ -17,12 +17,12 @@ void
 Channel::handleEvent()
 {
         // 根据不同的事件进行不同的回调
-        if (revents_ & ::ReadEvent)
+        if (revents_ & ReadEvent)
         {
                 if (readCallBack_)
                         readCallBack_();
         }
-        if (revents_ & ::WriteEvent)
+        if (revents_ & WriteEvent)
         {
                 if (writeCallBack_)
                         writeCallBack_();
@@ -44,28 +44,28 @@ Channel::setWriteCallBack(const EventCallBack& cb)
 void
 Channel::enableRead()
 {
-        events_ |= ::ReadEvent;
+        events_ |= ReadEvent;
         update();
 }
 
 void
 Channel::enableWrite()
 {
-        events_ |= ::WriteEvent;
+        events_ |= WriteEvent;
         update();
 }
 
 void
 Channel::disableRead()
 {
-        events_ &= ~::ReadEvent;
+        events_ &= ~ReadEvent;
         update();
 }
 
 void
 Channel::disableWrite()
 {
-        events_ &= ~::WriteEvent;
+        events_ &= ~WriteEvent;
         update();
 }
 
@@ -78,13 +78,13 @@ Channel::update()
 bool
 Channel::readReady()
 {
-        return events_ & ::ReadEvent;
+        return events_ & ReadEvent;
 }
 
 bool
 Channel::writeReady()
 {
-        return events_ & ::WriteEvent;
+        return events_ & WriteEvent;
 }
 
 } // namespace Explorer
