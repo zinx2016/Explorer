@@ -37,9 +37,9 @@ private:
         static const uint32_t WriteEvent;
 
 private:
-        EventLoop* loop_;
-        const int fd_;
-        int events_;
+        EventLoop* loop_; // 所属的EventLoop
+        const int fd_; // 一个Channel只负责一个描述符
+        int events_; // 该描述符上关心的事件
         int revents_; //目前的活跃事件
 
         EventCallBack readCallBack_;
