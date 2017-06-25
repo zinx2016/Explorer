@@ -1,13 +1,14 @@
-#include "socket.h"
 #include <unistd.h>
 #include <fcntl.h>
+#include <netinet/tcp.h> // for TCP_NODELAY
+
+#include "socket.h"
 
 namespace Explorer {
 
-void
-Socket::create()
+Socket::Socket()
 {
-        assert( -1 != (sockfd_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP)) );
+        assert( -1 != (sockfd_ = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP)) );
         setNonBlock(sockfd_);
 }
 
