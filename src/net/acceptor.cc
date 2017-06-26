@@ -33,5 +33,4 @@ Acceptor::handleRead()
         connectionCb_(confd, cliAddress);
 }
 
-
 } // namespace Explorer
