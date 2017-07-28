@@ -6,20 +6,28 @@ make
 
 ## Example  
 First, run the server program :  
-./exp-srv
+./exp-srv  
+   
 Then, run the client program :   
-./exp-cli   
-Insert   
+./exp-cli  
+
+Insert a key-value:  
 &gt; set  zx  1  
-Search  
+   
+Search a key:  
 &gt; get  zx  
-Update  
-&gt; update  zx  
-Delete  
-&gt; del  zx  
-State  
+  
+Update a key:  
+&gt; update   zx  
+   
+Delete a key:  
+&gt; del   zx  
+  
+State:  
 &gt; stat  
-Help  
+  
+Look for help:  
 &gt; h  
-Quit  
+  
+Quit:  
 &gt; q
