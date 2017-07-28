@@ -12,25 +12,25 @@ First, run the server program :
 Then, run the client program :   
 ./exp-cli  
 
-Insert a key-value:  
+Insert a key-value :  
 &gt; set&nbsp;&nbsp;zx&nbsp;&nbsp;1  
    
-Search a key:   
+Search a key :   
 &gt; get&nbsp;&nbsp;zx  
   
-Update a key:  
+Update a key :  
 &gt; update&nbsp;&nbsp;zx  
    
-Delete a key:  
+Delete a key :  
 &gt; del&nbsp;&nbsp;zx  
   
-Display the current status of the storage system:  
+Display the current status of the storage system :  
 &gt; stat  
   
-Look for help:  
+Look for help :  
 &gt; h  
   
-Quit from client:  
+Quit from client :  
 &gt; q  
 
 ## Attention  
