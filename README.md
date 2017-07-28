@@ -10,7 +10,7 @@ First, run the server program :
 Then, run the client program :   
 ./exp-cli   
 Insert
-> set zx 1  
+& gt set zx 1  
 Search  
 > get zx  
 Update  
