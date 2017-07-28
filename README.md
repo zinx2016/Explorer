@@ -1,6 +1,7 @@
 # Explorer
 Explorer is a key-value storage system with client and server.   
-Explorer use B+ tree as storage engine. Client and server communicate using the TCP protocol.
+Explorer use B+ tree as storage engine. Client and server communicate using the TCP protocol.  
+  
 ## Compile
 make
 
@@ -23,11 +24,14 @@ Update a key:
 Delete a key:  
 &gt; del&nbsp;&nbsp;zx  
   
-State:  
+Display the current status of the storage system:  
 &gt; stat  
   
 Look for help:  
 &gt; h  
   
-Quit:  
-&gt; q
+Quit from client:  
+&gt; q  
+
+##Attention  
+By default, the key type is string and value type is int. All key-values storage in one file， you can change the file name or file position in source file test/kvstore/exp-server/exp-server.cc.
