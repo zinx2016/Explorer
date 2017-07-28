@@ -10,16 +10,16 @@ First, run the server program :
 Then, run the client program :   
 ./exp-cli   
 Insert   
-&gt; set zx 1  
+&gt; set  zx  1  
 Search  
-> get zx  
+&gt; get  zx  
 Update  
-> update zx  
+&gt; update  zx  
 Delete  
-> del zx  
+&gt; del  zx  
 State  
-> stat  
+&gt; stat  
 Help  
-> h  
+&gt; h  
 Quit  
-> q
+&gt; q
