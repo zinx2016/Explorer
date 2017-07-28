@@ -19,7 +19,7 @@ Search a key : 
 &gt; get&nbsp;&nbsp;zx  
   
 Update a key :  
-&gt; update&nbsp;&nbsp;zx  
+&gt; update&nbsp;&nbsp;zx&nbsp;&nbsp;2  
    
 Delete a key :  
 &gt; del&nbsp;&nbsp;zx  
