@@ -12,16 +12,16 @@ Then, run the client program :
 ./exp-cli  
 
 Insert a key-value:  
-&gt; set  zx  1  
+&gt; set&nbsp;&nbsp;zx&nbsp;&nbsp;1  
    
-Search a key:  
-&gt; get  zx  
+Search a key:   
+&gt; get&nbsp;&nbsp;zx  
   
 Update a key:  
-&gt; update   zx  
+&gt; update&nbsp;&nbsp;zx  
    
 Delete a key:  
-&gt; del   zx  
+&gt; del&nbsp;&nbsp;zx  
   
 State:  
 &gt; stat  
