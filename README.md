@@ -9,7 +9,7 @@ First, run the server program :
 ./exp-srv
 Then, run the client program :   
 ./exp-cli   
-Insert
+Insert   
 & gt set zx 1  
 Search  
 > get zx  
