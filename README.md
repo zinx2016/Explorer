@@ -36,3 +36,4 @@ Quit from client :
 ## Attention  
 By default, the key type is string and value type is int.   
 All key-values store in one file named test.db, you can change the file name or file position in source file test/kvstore/exp-server/exp-server.cc.
+
